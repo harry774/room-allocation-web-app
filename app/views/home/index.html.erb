@@ -1,0 +1,12 @@
+<html>
+<head>
+  <title>Welcome to Room Allocation</title>
+</head>
+<body>
+  <h1>Import file here</h1>
+  <%= form_tag({:action => :import}, multipart: true) do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag( "Import" ) %>
+  <% end %>
+</body>
+</html>
