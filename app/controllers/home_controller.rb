@@ -87,29 +87,25 @@ class HomeController < ApplicationController
         @nag_allocation = {}
         total = (ladies.length if ladies.present?) + (gents.length if gents.present?) + (others.length if others.present?)
 
-        if total <= 52
-          oag_conditions.each do |room, condition|
+        oag_conditions.each do |room, condition|
 
-            if count <= total
-              roomiez = ladies[0..condition[0]] if condition[1] == 'l'
-              roomiez = gents[0..condition[0]] if condition[1] == 'g'
+          if count <= total
+            roomiez = ladies[0..condition[0]] if condition[1] == 'l'
+            roomiez = gents[0..condition[0]] if condition[1] == 'g'
 
-              @oag_allocation[room] = roomiez
-              condition[0].times {
-                ladies.delete_at(0)
-                count += 1
-              } if condition[1] == 'l'
+            @oag_allocation[room] = roomiez
+            condition[0].times {
+              ladies.delete_at(0)
+              count += 1
+            } if condition[1] == 'l'
 
-              condition[0].times {
-                gents.delete_at(0)
-                count += 1
-              } if condition == 'g'
-            else
-              break
-            end
-
+            condition[0].times {
+              gents.delete_at(0)
+              count += 1
+            } if condition == 'g'
+          else
+            break
           end
-
         end
 
         if total > 52
