@@ -1,4 +1,60 @@
-<%= @oag_allocation %>
+<html>
+<head>
+  <title>Allocatioin</title>
+  <style>
+    body{
+      padding: 40px;
+    }
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+<container>
+  <div class="oag">
+    <table>
+      <caption>Old Atithi Gruh Allocation</caption>
+      <tr>
+        <th>Room No.</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Mobile No.</th>
+        <th>Email</th>
+        <th>Center</th>
+      </tr>
+      <% @oag_allocation.each do |participant| %>
+        <tr>
+          <td rowspan="<%= participant[1].length %>"><%= participant[0] %></td>
+          <% count =0 %>
+          <% participant[1].each do |parti_ele| %>
+            <% if count != 0 %><tr><% end %>
+              <td><%= parti_ele[:name] %></td>
+              <td><%= parti_ele[:gender] %></td>
+              <td><%= parti_ele[:age] %></td>
+              <td><%= parti_ele[:cell] %></td>
+              <td><%= parti_ele[:email] %></td>
+              <td><%= parti_ele[:center] %></td>
+            <% if count != 0 %></tr><% end %>
+            <% count += 1  %>
+          <% end %>
+        </tr>
+      <% end %>
+
+    </table>
+  </div>
+  <div class="nag"></div>
+</container>
+</body>
+</html>
 <% if @nag_allocation.present? %>
 <hr>
 <%= @nag_allocation %>

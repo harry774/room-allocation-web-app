@@ -1,12 +1,26 @@
 <html>
 <head>
   <title>Welcome to Room Allocation</title>
+  <style>
+    body {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+      .file-button{
+        height: 40px;
+      }
+  </style>
 </head>
 <body>
-  <h1>Import file here</h1>
+<div class="container">
+  <h1>Import your file here</h1>
   <%= form_tag({:action => :import}, multipart: true) do %>
-  <%= file_field_tag :file %>
-  <%= submit_tag( "Import" ) %>
+
+    <div class="file-button"><%= file_field_tag :file %><br/></div>
+    <div class="sub-btn"><%= submit_tag( "Import" ) %></div>
+
   <% end %>
+</div>
 </body>
 </html>
