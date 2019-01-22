@@ -16,7 +16,6 @@ class HomeController < ApplicationController
         if xlsx.sheets.count == 1
           # row attributes - "NO, NAME, GEN, AGE, CELL, EMAIL, CENTER"
           header_column = {no: "NO", name: "NAME", gender: "GEN", age: "AGE", cell: "CELL", email: "EMAIL", center: "CENTER"}
-
           xlsx.each_with_index(header_column) do |row, index|
             # {:no=>1, :name=>"AANYA HARSH MEHTA", :gender=>"Female", :age=>nil, :cell=>9892623541, :email=>"Harshmehta24@gmail.com", :center=>"Mumbai"}
             next if index == 0
@@ -85,7 +84,7 @@ class HomeController < ApplicationController
         count  = 0
         @oag_allocation = {}
         @nag_allocation = {}
-        total = (ladies.length if ladies.present?) + (gents.length if gents.present?) + (others.length if others.present?)
+        total = (ladies.present? ? ladies.length : 0) + (gents.present? ? gents.length : 0) + (others.present? ? others.length : 0)
 
         oag_conditions.each do |room, condition|
 
