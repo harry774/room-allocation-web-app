@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'home/index'
+  root to: 'home#index'
   match 'home/import', via: [ :post]
   get 'home/result'
 end
