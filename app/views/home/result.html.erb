@@ -32,7 +32,7 @@
       </tr>
       <% @oag_allocation.each do |participant| %>
         <tr>
-          <td rowspan="<%= participant[1].length %>"><%= participant[0] %></td>
+          <% if participant[1].present? %><td rowspan="<%= participant[1].length %>"><%= participant[0] %></td><% end %>
           <% count =0 %>
           <% participant[1].each do |parti_ele| %>
             <% if count != 0 %><tr><% end %>
@@ -63,7 +63,7 @@
         </tr>
         <% @nag_allocation.each do |participant| %>
           <tr>
-            <td rowspan="<%= participant[1].length %>"><%= participant[0] %></td>
+            <% if participant[1].present? %><td rowspan="<%= participant[1].length %>"><%= participant[0] %></td><% end %>
             <% count =0 %>
             <% participant[1].each do |parti_ele| %>
             <% if count != 0 %><tr><% end %>
