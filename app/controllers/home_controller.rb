@@ -58,29 +58,32 @@ class HomeController < ApplicationController
         }
 
         nag_conditions = {
-            37 => [3, 'l'], #ac
-            38 => [3, 'l'], #ac
-            39 => [3, 'l'],
-            40 => [3, 'l'],
-            41 => [2, 'l'],
-            42 => [2, 'l'],
+            39 => [4, 'l'],
+            40 => [4, 'l'],
+            41 => [4, 'l'],
+            42 => [4, 'l'],
             43 => [3, 'g'],
-            45 => [3, 'g'], #ac
-            46 => [3, 'g'], #ac
-            47 => [3, 'g'], #ac
-            48 => [3, 'g'], #ac
-            49 => [3, 'l'],
-            50 => [2, 'l'],
-            51 => [2, 'l'],
-            52 => [2, 'l'],
-            53 => [2, 'l'],
-            54 => [2, 'g'],
-            55 => [2, 'g'],
-            57 => [2, 'g'],
-            58 => [2, 'g'],
-            59 => [2, 'g'],
-            60 => [2, 'g']
+            49 => [4, 'l'],
+            50 => [4, 'l'],
+            51 => [4, 'l'],
+            52 => [4, 'l'],
+            53 => [4, 'l'],
+            54 => [4, 'g'],
+            55 => [3, 'g'],
+            57 => [4, 'g'],
+            58 => [4, 'g'],
+            59 => [4, 'g'],
+            60 => [4, 'g']
         }
+
+            # 37 => [3, 'l'], #ac
+            # 38 => [3, 'l'], #ac
+            # 45 => [3, 'g'], #ac
+            # 46 => [3, 'g'], #ac
+            # 47 => [3, 'g'], #ac
+            # 48 => [3, 'g'], #ac
+
+
         count  = 0
         @oag_allocation = {}
         @nag_allocation = {}
@@ -109,12 +112,12 @@ class HomeController < ApplicationController
 
         if total > 52
           nag_conditions.each do |room, condition|
-            roomiez = ladies[0..condition[0]] if condition[1] == 'l'
-            roomiez = gents[0..condition[0]] if condition[1] == 'g'
+            roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
+            roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
 
             @nag_allocation[room] = roomiez
-            condition[0].times { ladies.delete_at(0) } if condition[1] == 'l'
-            condition[0].times { gents.delete_at(0) } if condition == 'g'
+            (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "Female" # if condition[1] == 'l'
+            (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "Male" # if condition[1] == 'g'
           end
         end
         render 'result'
