@@ -19,6 +19,7 @@
 </head>
 <body>
 <container>
+  <% if @oag_allocation.present? %>
   <div class="oag">
     <table>
       <caption>Old Atithi Gruh Allocation</caption>
@@ -51,11 +52,38 @@
 
     </table>
   </div>
-  <div class="nag"></div>
+  <% end %>
+  <% if @nag_allocation.present? %>
+    <hr>
+    <div class="nag">
+      <table>
+        <caption>New Atithi Gruh Allocation</caption>
+        <tr>
+          <th>Room No.</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Center</th>
+        </tr>
+        <% @nag_allocation.each do |participant| %>
+          <tr>
+            <td rowspan="<%= participant[1].length %>"><%= participant[0] %></td>
+            <% count =0 %>
+            <% participant[1].each do |parti_ele| %>
+            <% if count != 0 %><tr><% end %>
+            <td><%= parti_ele[:name] %></td>
+            <td><%= parti_ele[:gender] %></td>
+            <td><%= parti_ele[:age] %></td>
+            <td><%= parti_ele[:center] %></td>
+            <% if count != 0 %></tr><% end %>
+            <% count += 1  %>
+          <% end %>
+          </tr>
+        <% end %>
+
+      </table>
+    </div>
+  <% end %>
 </container>
 </body>
 </html>
-<% if @nag_allocation.present? %>
-<hr>
-<%= @nag_allocation %>
-<% end %>

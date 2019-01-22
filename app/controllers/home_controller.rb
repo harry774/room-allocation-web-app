@@ -89,19 +89,19 @@ class HomeController < ApplicationController
         oag_conditions.each do |room, condition|
 
           if count <= total
-            roomiez = ladies[0..condition[0]] if condition[1] == 'l'
-            roomiez = gents[0..condition[0]] if condition[1] == 'g'
+            roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
+            roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
 
             @oag_allocation[room] = roomiez
-            condition[0].times {
+            (condition[0]+1).times {
               ladies.delete_at(0)
               count += 1
-            } if condition[1] == 'l'
+            } if roomiez.present? && roomiez[0][:gender] == "Female" # if condition[1] == 'l'
 
-            condition[0].times {
+            (condition[0]+1).times {
               gents.delete_at(0)
               count += 1
-            } if condition[1] == 'g'
+            } if roomiez.present? && roomiez[0][:gender] == "Male" # if condition[1] == 'g'
           else
             break
           end
