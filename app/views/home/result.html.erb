@@ -28,8 +28,6 @@
         <th>Name</th>
         <th>Gender</th>
         <th>Age</th>
-        <th>Mobile No.</th>
-        <th>Email</th>
         <th>Center</th>
       </tr>
       <% @oag_allocation.each do |participant| %>
@@ -41,8 +39,6 @@
               <td><%= parti_ele[:name] %></td>
               <td><%= parti_ele[:gender] %></td>
               <td><%= parti_ele[:age] %></td>
-              <td><%= parti_ele[:cell] %></td>
-              <td><%= parti_ele[:email] %></td>
               <td><%= parti_ele[:center] %></td>
             <% if count != 0 %></tr><% end %>
             <% count += 1  %>
