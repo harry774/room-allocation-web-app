@@ -102,7 +102,7 @@ class HomeController < ApplicationController
             condition[0].times {
               gents.delete_at(0)
               count += 1
-            } if condition == 'g'
+            } if condition[1] == 'g'
           else
             break
           end
