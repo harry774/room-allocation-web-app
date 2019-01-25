@@ -9,7 +9,7 @@ class HomeController < ApplicationController
       begin
         ladies = []
         gents = []
-        others = []
+        @others = []
         f = File.new(params[:file].path)
         xlsx = Roo::Spreadsheet.open(f)
         xlsx.default_sheet = xlsx.sheets.first
@@ -23,11 +23,14 @@ class HomeController < ApplicationController
             if check_row_is_blank(row)
               next
             elsif row[:gender] == 'Female' || row[:gender] == 'female' || row[:gender] == 'FEMALE' || row[:gender] == 'F' || row[:gender] == 'f'
+              row[:gender].upcase!
               ladies << row
             elsif row[:gender] == 'Male' || row[:gender] == 'male' || row[:gender] == 'MALE' || row[:gender] == 'M' || row[:gender] == 'm'
+              row[:gender].upcase!
               gents << row
             else
-              others << row
+              row[:gender].upcase!
+              @others << row
             end
           end
         end
@@ -35,10 +38,10 @@ class HomeController < ApplicationController
 
         ladies.sort_by!{|hsh| hsh[:age].to_i}
         gents.sort_by!{|hsh| hsh[:age].to_i}
-        others.sort_by!{|hsh| hsh[:age].to_i}
+        @others.sort_by!{|hsh| hsh[:age].to_i}
         ladies.reverse!
         gents.reverse!
-        others.reverse!
+        @others.reverse!
 
         oag_conditions = {
             1 => [3, 'l'],
@@ -76,35 +79,35 @@ class HomeController < ApplicationController
             60 => [4, 'g']
         }
 
-            # 37 => [3, 'l'], #ac
-            # 38 => [3, 'l'], #ac
-            # 45 => [3, 'g'], #ac
-            # 46 => [3, 'g'], #ac
-            # 47 => [3, 'g'], #ac
-            # 48 => [3, 'g'], #ac
-
+        # 37 => [3, 'l'], #ac
+        # 38 => [3, 'l'], #ac
+        # 45 => [3, 'g'], #ac
+        # 46 => [3, 'g'], #ac
+        # 47 => [3, 'g'], #ac
+        # 48 => [3, 'g'], #ac
 
         count  = 0
         @oag_allocation = {}
         @nag_allocation = {}
-        total = (ladies.present? ? ladies.length : 0) + (gents.present? ? gents.length : 0) + (others.present? ? others.length : 0)
-
+        total = (ladies.present? ? ladies.length : 0) + (gents.present? ? gents.length : 0) + (@others.present? ? @others.length : 0)
         oag_conditions.each do |room, condition|
 
           if count <= total
+            roomiez = []
             roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
-            roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
+            roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.blank?
 
             @oag_allocation[room] = roomiez
             (condition[0]+1).times {
               ladies.delete_at(0)
               count += 1
-            } if roomiez.present? && roomiez[0][:gender] == "Female" # if condition[1] == 'l'
+            } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
 
             (condition[0]+1).times {
               gents.delete_at(0)
               count += 1
-            } if roomiez.present? && roomiez[0][:gender] == "Male" # if condition[1] == 'g'
+            } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
+
           else
             break
           end
@@ -116,8 +119,8 @@ class HomeController < ApplicationController
             roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
 
             @nag_allocation[room] = roomiez
-            (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "Female" # if condition[1] == 'l'
-            (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "Male" # if condition[1] == 'g'
+            (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
+            (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
           end
         end
         render 'result'

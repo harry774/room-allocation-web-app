@@ -1,20 +1,28 @@
 <html>
 <head>
-  <title>Allocatioin</title>
+  <title>Allocation Results</title>
   <style>
     body{
       padding: 40px;
+      background-color: lavender;
     }
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
-      width: 100%;
+      width: 85%;
+      margin: 0 auto;
     }
     td, th {
       border: 1px solid #dddddd;
-      text-align: left;
+      text-align: center;
       padding: 8px;
     }
+    caption{
+      font-family: 'Roboto', 'Sans-Serif';
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
   </style>
 </head>
 <body>
@@ -22,13 +30,12 @@
   <% if @oag_allocation.present? %>
   <div class="oag">
     <table>
-      <caption>Old Atithi Gruh Allocation</caption>
+      <caption><b>Old Atithi Gruh Allocation</b></caption>
       <tr>
         <th>Room No.</th>
         <th>Name</th>
         <th>Gender</th>
         <th>Age</th>
-        <th>Center</th>
       </tr>
       <% @oag_allocation.each do |participant| %>
         <tr>
@@ -39,7 +46,6 @@
               <td><%= parti_ele[:name] %></td>
               <td><%= parti_ele[:gender] %></td>
               <td><%= parti_ele[:age] %></td>
-              <td><%= parti_ele[:center] %></td>
             <% if count != 0 %></tr><% end %>
             <% count += 1  %>
           <% end %>
@@ -53,13 +59,12 @@
     <hr>
     <div class="nag">
       <table>
-        <caption>New Atithi Gruh Allocation</caption>
+        <caption><b>New Atithi Gruh Allocation</b></caption>
         <tr>
           <th>Room No.</th>
           <th>Name</th>
           <th>Gender</th>
           <th>Age</th>
-          <th>Center</th>
         </tr>
         <% @nag_allocation.each do |participant| %>
           <tr>
@@ -70,13 +75,31 @@
             <td><%= parti_ele[:name] %></td>
             <td><%= parti_ele[:gender] %></td>
             <td><%= parti_ele[:age] %></td>
-            <td><%= parti_ele[:center] %></td>
             <% if count != 0 %></tr><% end %>
             <% count += 1  %>
           <% end %>
           </tr>
         <% end %>
 
+      </table>
+    </div>
+  <% end %>
+  <% if @others.present? %>
+    <div class="oag">
+      <table>
+        <caption><b>Others (Gender is not provided), Couldn't able to Allocation room</b></caption>
+        <tr>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+        </tr>
+        <% @others.each do |participant| %>
+          <tr>
+            <td><%= participant[:name] %></td>
+            <td><%= participant[:gender] %></td>
+            <td><%= participant[:age] %></td>
+          </tr>
+        <% end %>
       </table>
     </div>
   <% end %>
