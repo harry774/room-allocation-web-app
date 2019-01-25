@@ -23,13 +23,13 @@ class HomeController < ApplicationController
             if check_row_is_blank(row)
               next
             elsif row[:gender] == 'Female' || row[:gender] == 'female' || row[:gender] == 'FEMALE' || row[:gender] == 'F' || row[:gender] == 'f'
-              row[:gender].upcase!
+              row[:gender].upcase! if row[:gender].present?
               ladies << row
             elsif row[:gender] == 'Male' || row[:gender] == 'male' || row[:gender] == 'MALE' || row[:gender] == 'M' || row[:gender] == 'm'
-              row[:gender].upcase!
+              row[:gender].upcase! if row[:gender].present?
               gents << row
             else
-              row[:gender].upcase!
+              row[:gender].upcase! if row[:gender].present?
               @others << row
             end
           end

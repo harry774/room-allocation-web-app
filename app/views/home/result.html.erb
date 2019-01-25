@@ -12,6 +12,12 @@
       width: 85%;
       margin: 0 auto;
     }
+    .collection{
+      margin-bottom: 30px;
+    }
+    .oth table{
+      width: 50%;
+    }
     td, th {
       border: 1px solid #dddddd;
       text-align: center;
@@ -28,7 +34,7 @@
 <body>
 <container>
   <% if @oag_allocation.present? %>
-  <div class="oag">
+  <div class="collection">
     <table>
       <caption><b>Old Atithi Gruh Allocation</b></caption>
       <tr>
@@ -57,7 +63,7 @@
   <% end %>
   <% if @nag_allocation.present? %>
     <hr>
-    <div class="nag">
+    <div class="collection">
       <table>
         <caption><b>New Atithi Gruh Allocation</b></caption>
         <tr>
@@ -85,19 +91,15 @@
     </div>
   <% end %>
   <% if @others.present? %>
-    <div class="oag">
+    <div class="collection oth">
       <table>
-        <caption><b>Others (Gender is not provided), Couldn't able to Allocation room</b></caption>
+        <caption><b>Others (Gender is not provided), Not able to allocate the room</b></caption>
         <tr>
           <th>Name</th>
-          <th>Gender</th>
-          <th>Age</th>
         </tr>
         <% @others.each do |participant| %>
           <tr>
             <td><%= participant[:name] %></td>
-            <td><%= participant[:gender] %></td>
-            <td><%= participant[:age] %></td>
           </tr>
         <% end %>
       </table>
