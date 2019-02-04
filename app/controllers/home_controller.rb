@@ -50,7 +50,7 @@ class HomeController < ApplicationController
             4 => [3, 'g'],
             5 => [2, 'g'],
             6 => [2, 'g'],
-            11 => [3, 'g'],
+            11 => [1, 'g'],
             16 => [3, 'g'],
             19 => [3, 'l'],
             20 => [3, 'l'],
@@ -61,6 +61,25 @@ class HomeController < ApplicationController
         }
 
         nag_conditions = {
+            39 => [3, 'l'],
+            40 => [3, 'l'],
+            41 => [3, 'l'],
+            42 => [3, 'l'],
+            43 => [2, 'g'],
+            49 => [3, 'l'],
+            50 => [3, 'l'],
+            51 => [3, 'l'],
+            52 => [3, 'l'],
+            53 => [3, 'l'],
+            54 => [3, 'g'],
+            55 => [2, 'g'],
+            57 => [3, 'g'],
+            58 => [3, 'g'],
+            59 => [3, 'g'],
+            60 => [3, 'g']
+        }
+
+        nag_conditions_for_extra = {
             39 => [4, 'l'],
             40 => [4, 'l'],
             41 => [4, 'l'],
@@ -112,15 +131,26 @@ class HomeController < ApplicationController
             break
           end
         end
-
         if total > 52
-          nag_conditions.each do |room, condition|
-            roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
-            roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
+          remaining = total - 52
+          if remaining > 62
+            nag_conditions_for_extra.each do |room, condition|
+              roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
+              roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
 
-            @nag_allocation[room] = roomiez
-            (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
-            (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
+              @nag_allocation[room] = roomiez
+              (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
+              (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
+            end
+          else
+            nag_conditions.each do |room, condition|
+              roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
+              roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
+
+              @nag_allocation[room] = roomiez
+              (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
+              (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
+            end
           end
         end
         render 'result'
