@@ -137,9 +137,10 @@ class HomeController < ApplicationController
             nag_conditions_for_extra.each do |room, condition|
               roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
               roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
-
               roomiez.each do |roomie|
-                roomiez - roomie if roomie[:age] > 35
+                newarr = Array.new
+                newarr << roomie
+                roomiez - newarr if roomie[:age] > 35
               end
 
               @nag_allocation[room] = roomiez
