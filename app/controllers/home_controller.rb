@@ -138,6 +138,10 @@ class HomeController < ApplicationController
               roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
               roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
 
+              roomiez.each do |roomie|
+                roomiez - roomie if roomie[:age] > 35
+              end
+
               @nag_allocation[room] = roomiez
               (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
               (condition[0]+1).times { gents.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "MALE" # if condition[1] == 'g'
