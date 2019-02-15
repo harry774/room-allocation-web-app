@@ -100,6 +100,7 @@
         <% @others.each do |participant| %>
           <tr>
             <td><%= participant[:name] %></td>
+            <td><%= participant[:age] %></td>
           </tr>
         <% end %>
       </table>
@@ -116,6 +117,7 @@
         <% @couldnt_allocated_ladies.each do |participant| %>
           <tr>
             <td><%= participant[:name] %></td>
+            <td><%= participant[:age] %></td>
           </tr>
         <% end %>
       </table>
@@ -133,6 +135,7 @@
         <% @couldnt_allocated_gents.each do |participant| %>
           <tr>
             <td><%= participant[:name] %></td>
+            <td><%= participant[:age] %></td>
           </tr>
         <% end %>
       </table>
