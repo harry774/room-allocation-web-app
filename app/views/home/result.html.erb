@@ -105,6 +105,40 @@
       </table>
     </div>
   <% end %>
+
+  <% if @couldnt_allocated_ladies.present? %>
+    <div class="collection oth">
+      <table>
+        <caption><b>Ladies: Couldn't Allocated (it might be the reason NAG is full)</b></caption>
+        <tr>
+          <th>Name</th>
+        </tr>
+        <% @couldnt_allocated_ladies.each do |participant| %>
+          <tr>
+            <td><%= participant[:name] %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+
+
+  <% if @couldnt_allocated_gents.present? %>
+    <div class="collection oth">
+      <table>
+        <caption><b>Ladies: Couldn't Allocated (it might be the reason NAG is full)</b></caption>
+        <tr>
+          <th>Name</th>
+        </tr>
+        <% @couldnt_allocated_gents.each do |participant| %>
+          <tr>
+            <td><%= participant[:name] %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+
 </container>
 </body>
 </html>

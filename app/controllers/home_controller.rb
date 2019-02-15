@@ -132,15 +132,17 @@ class HomeController < ApplicationController
           end
         end
         if total > 52
-          remaining = total - 52
+          remaining = (ladies.length + gents.length) - 52
           if remaining > 62
             nag_conditions_for_extra.each do |room, condition|
               roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
               roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
               roomiez.each do |roomie|
-                newarr = Array.new
-                newarr << roomie
-                roomiez - newarr if roomie[:age] > 35
+                if roomie[:age] > 35
+                  newarr = Array.new
+                  newarr << roomie
+                  roomiez = roomiez - newarr
+                end
               end
 
               @nag_allocation[room] = roomiez
@@ -151,6 +153,13 @@ class HomeController < ApplicationController
             nag_conditions.each do |room, condition|
               roomiez = ladies[0..condition[0]] if condition[1] == 'l' || gents.blank?
               roomiez = gents[0..condition[0]] if (condition[1] == 'g' || ladies.blank?) && roomiez.nil?
+              # roomiez.each do |roomie|
+              #   if roomie[:age] > 35
+              #     newarr = Array.new
+              #     newarr << roomie
+              #     roomiez = roomiez - newarr
+              #   end
+              # end
 
               @nag_allocation[room] = roomiez
               (condition[0]+1).times { ladies.delete_at(0) } if roomiez.present? && roomiez[0][:gender] == "FEMALE" # if condition[1] == 'l'
@@ -158,6 +167,8 @@ class HomeController < ApplicationController
             end
           end
         end
+        @couldnt_allocated_ladies = ladies if ladies.present?
+        @couldnt_allocated_gents = gents if gents.present?
         render 'result'
       end
     end
